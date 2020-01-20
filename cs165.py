@@ -3,7 +3,7 @@ import struct
 
 def generate_Permutations(depth,temp):
 	permutation_list = [ ('password','hash')]
-	l = "eabcdfghijklmnopqrstuvwxyz"
+	l = "abcdefghijklmnopqrstuvwxyz"
 	if(depth < 6):
 			
 		for i in l:
@@ -33,7 +33,7 @@ def Compute_Hash(pw):
 	a = hashlib.md5(pw + salt + pw).digest()
 	#print("alternate sum:", hashlib.md5(pw + salt + pw).hexdigest())
 	#print("alternate sum digest:", a)
-	b = pw + magic + salt + a[:6]
+	b = pw + magic + salt + a[:len(pw)]
 	#print(b)
 	lp = len(pw)
 	while lp != 0:
