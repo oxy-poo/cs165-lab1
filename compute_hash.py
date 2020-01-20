@@ -1,3 +1,5 @@
+import hashlib
+
 def Compute_Hash(pw):
 	pw.encode('utf-8')
 	salt = "4fTgjp6q".encode('utf-8')
@@ -58,3 +60,5 @@ def Compute_Hash(pw):
 	  v >>= 6
 	  
 	return final
+	
+print(Compute_Hash('a'))

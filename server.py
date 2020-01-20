@@ -12,7 +12,30 @@ import sys
 
 #############################################  ANSWER IS: 3735928559 ###################################################
 ALL_SOCKETS_IN_USE = 'All sockets are being used at the time please wait'  # Used when all there are 10 users logged
+def base10ToBase26Letter(num):
+    ''' Converts any positive integer to Base26(letters only) with no 0th 
+    case. Useful for applications such as spreadsheet columns to determine which 
+    Letterset goes with a positive integer.
+    '''
+    if num <= 0:
+        return ""
+    elif num <= 26:
+        return chr(96+num)
+    else:
+        return base10ToBase26Letter(int((num-1)/26))+chr(97+(num-1)%26)
 
+def base26LetterToBase10(string):
+    ''' Converts a string from Base26(letters only) with no 0th case to a positive
+    integer. Useful for figuring out column numbers from letters so that they can
+    be called from a list.
+    '''
+    string = string.lower()
+    if string == " " or len(string) == 0:
+        return 0
+    if len(string) == 1:
+        return ord(string)-96
+    else:
+        return base26LetterToBase10(string[1:])+(26**(len(string)-1))*(ord(string[0])-96)
 
 def write_or_create_text_file(data):
     """This function creates a text file on the client's computer"""
@@ -38,8 +61,8 @@ class Server (object):  # The server's class
         self.IP = '127.0.0.1'  # The IP of the server.
         self.PORT = 220  # The chose port to have the connection on
         self.HASH = 'EC9C0F7EDCC18A98B1F31853B1813301'  # This is the hash that we need to match (the answer md5d)
-        self.START_NUM =   # The number that the hash starts with, setting it up close so won't take so long
-        self.FINISH_NUM = 9999999999  # The number that the hash ends with
+        self.START_NUM =  0 # The number that the hash starts with, setting it up close so won't take so long
+        self.FINISH_NUM = base26LetterToBase10('zzzzzz')  # The number that the hash ends with
         self.CHOSEN_RANGE = 10000  # This is the range that the client will go over each time
         self.active_users = []  # This is a list containing the threads that are active and if there are any open
         self.users_allowed = sys.maxsize   # This is the amount of users that are allowed to be logged in at the same time

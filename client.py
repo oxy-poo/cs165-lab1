@@ -12,7 +12,31 @@ import os
 import time
 
 #############################################  ANSWER IS: 3735928559 ###################################################
+import compute_hash.py
+def base10ToBase26Letter(num):
+    ''' Converts any positive integer to Base26(letters only) with no 0th 
+    case. Useful for applications such as spreadsheet columns to determine which 
+    Letterset goes with a positive integer.
+    '''
+    if num <= 0:
+        return ""
+    elif num <= 26:
+        return chr(96+num)
+    else:
+        return base10ToBase26Letter(int((num-1)/26))+chr(97+(num-1)%26)
 
+def base26LetterToBase10(string):
+    ''' Converts a string from Base26(letters only) with no 0th case to a positive
+    integer. Useful for figuring out column numbers from letters so that they can
+    be called from a list.
+    '''
+    string = string.lower()
+    if string == " " or len(string) == 0:
+        return 0
+    if len(string) == 1:
+        return ord(string)-96
+    else:
+        return base26LetterToBase10(string[1:])+(26**(len(string)-1))*(ord(string[0])-96)
 
 def write_or_create_text_file(data):
     """This function creates a text file on the client's computer"""
@@ -35,7 +59,7 @@ def check_if_found():
 def check_hash(num):
     """This function gets a number as the input and returns the MD5 hash code of the number that was the input."""
     num_hash = hashlib.md5()
-    pw = str(num)
+    pw = base10ToBase26Letter(num)
     num_hash.update(pw.encode('utf-8'))
     hash = num_hash.hexdigest()
     return hash
