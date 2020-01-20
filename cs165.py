@@ -3,7 +3,7 @@ import struct
 
 def generate_Permutations(depth,temp):
 	permutation_list = [ ('password','hash')]
-	l = "zyxwvutsrqponmlkjlhgfedcba"
+	l = "abcdefghijklmnopqrstuvwxyz"
 	if(depth < 6):
 			
 		for i in l:
